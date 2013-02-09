@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %title Image Directories
+  %body
+    %ul
+      - @result.entries.each do |entry|
+        %li= entry
+    != paginate @result
