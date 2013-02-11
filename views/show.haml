@@ -1,0 +1,8 @@
+!!!
+%html
+  %head
+    %title<
+      = "(#{@current_page} / #{@all_pages_num}) #{params[:directory]}"
+  %body
+    %a{href: "/show/#{URI.encode(params[:directory])}/#{@next_page}"}<
+      %img{src: "/images/#{params[:directory]}/#{@image_filename}", alt: @image_filename}

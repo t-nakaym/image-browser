@@ -26,5 +26,21 @@ class App < Sinatra::Base
     haml :list, :format => :html5
   end
 
+  get '/show/:directory/:page' do
+    all_entries     = Dir.entries(File.join(BASE_DIRECTORY, params[:directory]))
+    image_entries   = all_entries.select {|entry| entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/ }
+    @all_pages_num  = image_entries.size
+    @current_page   = params[:page].to_i
+    @next_page      = @current_page.succ > @all_pages_num ? 0 : @current_page.succ
+    @image_filename = image_entries[@current_page]
+
+    haml :show, :format => :html5
+  end
+
+  get '/images/*' do
+    env["PATH_INFO"] = Rack::Utils.escape(File.join(params[:splat]))
+    Rack::File.new(BASE_DIRECTORY).call(env)
+  end
+
   run! if app_file == $0
 end
