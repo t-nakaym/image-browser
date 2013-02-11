@@ -15,7 +15,7 @@ class App < Sinatra::Base
     end
   end
 
-  get '/' do
+  get '/list' do
     all_entries = Dir.entries(BASE_DIRECTORY).select do |entry|
       entry !~ /\A\.{1,2}\z/ && File.directory?(File.join(BASE_DIRECTORY, entry))
     end
