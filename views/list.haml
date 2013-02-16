@@ -6,6 +6,6 @@
     %ul
       - @result.entries.each do |entry|
         %li<
-          %a{href: url("/show/#{URI.encode(entry)}/0", false)}<
+          %a{href: url("/show/#{URI.encode(entry)}/1", false)}<
             = entry
     != paginate @result

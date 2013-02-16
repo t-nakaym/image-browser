@@ -31,8 +31,8 @@ class App < Sinatra::Base
     image_entries   = all_entries.select {|entry| entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/ }
     @all_pages_num  = image_entries.size
     @current_page   = params[:page].to_i
-    @next_page      = @current_page.succ > @all_pages_num ? 0 : @current_page.succ
-    @image_filename = image_entries[@current_page]
+    @next_page      = @current_page.succ > @all_pages_num ? 1 : @current_page.succ
+    @image_filename = image_entries[@current_page - 1]
 
     haml :show, :format => :html5
   end
