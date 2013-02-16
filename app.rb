@@ -37,8 +37,8 @@ class App < Sinatra::Base
     all_entries = directory_entries(BASE_DIRECTORY)
     entries = all_entries[page * 10, 10]
     entries.map! do |entry|
-      thumbnail = File.join('/images', entry, thumbnail_entry(BASE_DIRECTORY, entry))
-      [entry, thumbnail]
+      thumbnail = thumbnail_entry(BASE_DIRECTORY, entry)
+      [entry, thumbnail ? File.join('/images', entry, thumbnail) : '']
     end
     @result = Struct::Result.new(all_entries.size, entries.size, entries)
 
