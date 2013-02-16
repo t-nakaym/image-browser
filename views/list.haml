@@ -2,10 +2,12 @@
 %html
   %head
     %title Image Directories
+    %link{rel: "stylesheet", type: "text/css", href: "/main.css"}
   %body
     %ul
-      - @result.entries.each do |entry|
+      - @result.entries.each do |entry, thumbnail|
         %li<
           %a{href: url("/show/#{URI.encode(entry)}/1", false)}<
+            %img.thumbnail{src: URI.encode(thumbnail), alt: entry}<
             = entry
     != paginate @result
