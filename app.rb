@@ -24,7 +24,7 @@ class App < Sinatra::Base
 
     def image_entries(base_dir, dir)
       Dir.entries(File.join(base_dir, dir)).select do |entry|
-        entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/
+        entry =~ /\.jpe?g\z/i || entry =~ /\.png\z/i
       end
     end
   end
