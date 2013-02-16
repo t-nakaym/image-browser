@@ -9,32 +9,42 @@ Struct.new('Result', :total, :size, :entries)
 class App < Sinatra::Base
   register Sinatra::Paginate
 
+  set :haml, :format => :html5
+
   helpers do
     def page
       [params[:page].to_i - 1, 0].max
     end
+
+    def directory_entries(dir)
+      Dir.entries(dir).select do |entry|
+        entry !~ /\A\.{1,2}\z/ && File.directory?(File.join(dir, entry))
+      end
+    end
+
+    def image_entries(base_dir, dir)
+      Dir.entries(File.join(base_dir, dir)).select do |entry|
+        entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/
+      end
+    end
   end
 
   get '/list' do
-    all_entries = Dir.entries(BASE_DIRECTORY).select do |entry|
-      entry !~ /\A\.{1,2}\z/ && File.directory?(File.join(BASE_DIRECTORY, entry))
-    end
-
+    all_entries = directory_entries(BASE_DIRECTORY)
     @entries = all_entries[page * 10, 10]
     @result = Struct::Result.new(all_entries.size, @entries.size, @entries)
 
-    haml :list, :format => :html5
+    haml :list
   end
 
   get '/show/:directory/:page' do
-    all_entries     = Dir.entries(File.join(BASE_DIRECTORY, params[:directory]))
-    image_entries   = all_entries.select {|entry| entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/ }
-    @all_pages_num  = image_entries.size
+    images          = image_entries(BASE_DIRECTORY, params[:directory])
+    @all_pages_num  = images.size
     @current_page   = params[:page].to_i
     @next_page      = @current_page.succ > @all_pages_num ? 1 : @current_page.succ
-    @image_filename = image_entries[@current_page - 1]
+    @image_filename = images[@current_page - 1]
 
-    haml :show, :format => :html5
+    haml :show
   end
 
   get '/images/*' do
