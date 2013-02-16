@@ -7,4 +7,4 @@
   %body{style: "background-color: #444444"}
     #image
       %a{href: "/show/#{URI.encode(params[:directory])}/#{@next_page}"}<
-        %img{src: "/images/#{params[:directory]}/#{@image_filename}", alt: @image_filename}
+        %img{src: "/images/#{URI.encode(params[:directory])}/#{URI.encode(@image_filename)}", alt: @image_filename}
