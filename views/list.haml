@@ -8,6 +8,6 @@
       - @result.entries.each do |entry, thumbnail|
         %li<
           %a{href: url("/show/#{URI.encode(entry)}/1", false)}<
-            %img.thumbnail{src: thumbnail, alt: entry}<
+            %img.thumbnail{src: URI.encode(thumbnail), alt: entry}<
             = entry
     != paginate @result
