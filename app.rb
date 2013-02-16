@@ -27,12 +27,20 @@ class App < Sinatra::Base
         entry =~ /\.jpe?g\z/ || entry =~ /\.png\z/
       end
     end
+
+    def thumbnail_entry(base_dir, dir)
+      image_entries(base_dir, dir).first
+    end
   end
 
   get '/list' do
     all_entries = directory_entries(BASE_DIRECTORY)
-    @entries = all_entries[page * 10, 10]
-    @result = Struct::Result.new(all_entries.size, @entries.size, @entries)
+    entries = all_entries[page * 10, 10]
+    entries.map! do |entry|
+      thumbnail = File.join('/images', entry, thumbnail_entry(BASE_DIRECTORY, entry))
+      [entry, thumbnail]
+    end
+    @result = Struct::Result.new(all_entries.size, entries.size, entries)
 
     haml :list
   end
