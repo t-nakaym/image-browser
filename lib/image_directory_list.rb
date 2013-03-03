@@ -6,7 +6,7 @@ class ImageDirectoryList
   def initialize(path, page, items_per_page)
     all_entries = directory_entries(path)
     @total      = all_entries.size
-    @entries    = all_entries[page * items_per_page, items_per_page].map do |entry|
+    @entries    = all_entries[(page - 1) * items_per_page, items_per_page].map do |entry|
       ImageDirectory.new(File.join(path, entry))
     end
   end

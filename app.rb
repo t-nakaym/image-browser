@@ -15,11 +15,11 @@ class App < Sinatra::Base
 
   helpers do
     def page
-      [params[:page].to_i - 1, 0].max
+      [params[:page].to_i, 1].max
     end
 
-    def next_page(current_page, all_page)
-      current_page >= all_page ? 1 : current_page.succ
+    def next_page(all_page)
+      page >= all_page ? 1 : page.succ
     end
 
     def encoded_url(*entries)
@@ -35,9 +35,8 @@ class App < Sinatra::Base
 
   get '/show/:directory/:page' do
     @image_dir      = ImageDirectory.new(File.join(BASE_DIRECTORY, params[:directory]))
-    @current_page   = params[:page].to_i
-    @next_page      = next_page(@current_page, @image_dir.images.size)
-    @image_filename = @image_dir.images[@current_page - 1]
+    @next_page      = next_page(@image_dir.images.size)
+    @image_filename = @image_dir.images[page - 1]
 
     haml :show
   end
