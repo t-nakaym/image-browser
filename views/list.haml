@@ -3,11 +3,15 @@
   %head
     %title Image Directories
     %link{rel: "stylesheet", type: "text/css", href: "/main.css"}
+    = bootstrap_assets
   %body
-    %ul
-      - @result.entries.each do |entry, thumbnail|
-        %li<
-          %a{href: url("/show/#{URI.encode(entry)}/1", false)}<
-            %img.thumbnail{src: URI.encode(thumbnail), alt: entry}<
-            = entry
-    != paginate @result
+    - container do
+      %ul.thumbnails
+        - @result.entries.each_slice(6) do |row_entries|
+          - row do
+            - row_entries.each do |entry, thumbnail|
+              %li.span2
+                %a.thumbnail{href: url(URI.encode("/show/#{entry}/1"), false)}
+                  %img{src: URI.encode(thumbnail), alt: entry}
+                  = entry
+      != paginate @result

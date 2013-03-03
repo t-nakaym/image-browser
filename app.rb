@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/paginate'
+require 'sinatra/twitter-bootstrap'
 
 
 BASE_DIRECTORY = ARGV[0]
@@ -8,6 +9,7 @@ Struct.new('Result', :total, :size, :entries)
 
 class App < Sinatra::Base
   register Sinatra::Paginate
+  register Sinatra::Twitter::Bootstrap::Assets
 
   set :haml, :format => :html5
 
@@ -35,7 +37,7 @@ class App < Sinatra::Base
 
   get '/list' do
     all_entries = directory_entries(BASE_DIRECTORY)
-    entries = all_entries[page * 10, 10]
+    entries = all_entries[page * 12, 12]
     entries.map! do |entry|
       thumbnail = thumbnail_entry(BASE_DIRECTORY, entry)
       [entry, thumbnail ? File.join('/images', entry, thumbnail) : '']
