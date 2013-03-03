@@ -21,6 +21,10 @@ class App < Sinatra::Base
     def next_page(current_page, all_page)
       current_page >= all_page ? 1 : current_page.succ
     end
+
+    def encoded_url(*entries)
+      URI.encode(url(File.join(*entries), false))
+    end
   end
 
   get '/list' do

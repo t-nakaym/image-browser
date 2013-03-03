@@ -5,6 +5,6 @@
     %link{rel: "stylesheet", type: "text/css", href: "/main.css"}
   %body{style: "background-color: #444444"}
     #image
-      %a{href: "/show/#{URI.encode(params[:directory])}/#{@next_page}"}<
-        %img{src: URI.encode("/images/#{params[:directory]}/#{@image_filename}"),
+      %a{href: encoded_url("/show", params[:directory], @next_page.to_s)}<
+        %img{src: encoded_url("/images", params[:directory], @image_filename),
              alt: @image_filename}
