@@ -9,9 +9,9 @@
       %ul.thumbnails
         - @result.entries.each_slice(6) do |row_entries|
           - row do
-            - row_entries.each do |entry, thumbnail|
+            - row_entries.each do |image_dir|
               %li.span2
-                %a.thumbnail{href: url(URI.encode("/show/#{entry}/1"), false)}
-                  %img{src: URI.encode(thumbnail), alt: entry}
-                  = entry
+                %a.thumbnail{href: url(URI.encode("/show/#{image_dir.basename}/1"), false)}
+                  %img{src: URI.encode(File.join("/images", image_dir.basename, image_dir.thumbnail)), alt: image_dir.basename}
+                  = image_dir.basename
       != paginate @result, view: :_paginate, items_per_page: 12
