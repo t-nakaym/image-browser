@@ -28,7 +28,7 @@ class App < Sinatra::Base
   end
 
   get '/list' do
-    @result = ImageDirectoryList.new(BASE_DIRECTORY, page, 12)
+    @result = ImageDirectoryList.new(BASE_DIRECTORY, page, 12, params[:query])
 
     haml :list
   end

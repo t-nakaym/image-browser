@@ -5,6 +5,11 @@
     %link{rel: "stylesheet", type: "text/css", href: "/main.css"}
     = bootstrap_assets
   %body
+    .navbar
+      .navbar-inner
+        %a.brand{href: "#"} Image Directories
+        %form.navbar-search.pull-right
+          %input.search-query{type: "text", name: "query", placeholder: "Search"}
     - container do
       %ul.thumbnails
         - @result.entries.each_slice(6) do |row_entries|
