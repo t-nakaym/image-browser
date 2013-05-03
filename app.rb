@@ -25,6 +25,15 @@ class App < Sinatra::Base
     def encoded_url(*entries)
       URI.encode(url(File.join(*entries), false))
     end
+
+    def page_link(link_page, curr_page, max_page, uri_base, label)
+      if link_page == curr_page || link_page < 1 || link_page > max_page
+        haml "%li{class: 'disabled'}\n  %span #{label}"
+      else
+        url = pagination_url(uri_base, params.merge('page' => link_page))
+        haml "%li\n  %a{href: '#{url}'} #{label}"
+      end
+    end
   end
 
   get '/list' do
