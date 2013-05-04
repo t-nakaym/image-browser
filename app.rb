@@ -27,11 +27,15 @@ class App < Sinatra::Base
     end
 
     def page_link(link_page, curr_page, max_page, uri_base, label)
+      locals = {
+        :link_label => label,
+        :link_url   => pagination_url(uri_base, params.merge('page' => link_page)),
+      } 
+
       if link_page == curr_page || link_page < 1 || link_page > max_page
-        haml "%li{class: 'disabled'}\n  %span #{label}"
+        haml "%li{class: 'disabled'}\n  %span= link_label", :locals => locals
       else
-        url = pagination_url(uri_base, params.merge('page' => link_page))
-        haml "%li\n  %a{href: '#{url}'} #{label}"
+        haml "%li\n  %a{href: link_url}= link_label", :locals => locals
       end
     end
   end
