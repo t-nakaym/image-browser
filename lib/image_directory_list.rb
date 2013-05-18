@@ -3,15 +3,15 @@ require_relative 'image_directory'
 class ImageDirectoryList
   attr_reader :total, :entries
 
-  def initialize(path, page, items_per_page, query = nil)
-    all_entries = directory_entries(path)
+  def initialize(base, path, page, items_per_page, query = nil)
+    all_entries = directory_entries(File.join(base, path))
     if query
       regexp = Regexp.new(Regexp.escape(query), Regexp::IGNORECASE)
       all_entries.select! {|entry| regexp =~ entry }
     end
     @total      = all_entries.size
     @entries    = all_entries[(page - 1) * items_per_page, items_per_page].map do |entry|
-      ImageDirectory.new(File.join(path, entry))
+      ImageDirectory.new(base, File.join(path, entry))
     end
   end
 

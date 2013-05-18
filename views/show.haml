@@ -1,10 +1,10 @@
 !!!
 %html
   %head
-    %title= "(#{page} / #{@image_dir.images.size}) #{params[:directory]}"
+    %title= "(#{page} / #{@image_dir.images.size}) #{@image_dir.path}"
     %link{rel: "stylesheet", type: "text/css", href: "/main.css"}
   %body{style: "background-color: #444444"}
     #image
-      %a{href: encoded_url("/show", params[:directory], @next_page.to_s)}<
-        %img{src: encoded_url("/images", params[:directory], @image_filename),
+      %a{href: encoded_url("/show", @image_dir.path, @next_page.to_s)}<
+        %img{src: encoded_url("/images", @image_dir.path, @image_filename),
              alt: @image_filename}
