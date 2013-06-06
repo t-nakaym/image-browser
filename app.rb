@@ -26,6 +26,14 @@ class App < Sinatra::Base
       URI.encode(url(File.join(*entries), false))
     end
 
+    def dir_link(image_dir)
+      if image_dir.subdirs.size == 0
+        encoded_url('/show', image_dir.path, '1')
+      else
+        encoded_url('/list', image_dir.path)
+      end
+    end
+
     def page_link(link_page, curr_page, max_page, uri_base, label)
       locals = {
         :link_label => label,
@@ -41,13 +49,18 @@ class App < Sinatra::Base
   end
 
   get '/list' do
-    @result = ImageDirectoryList.new(BASE_DIRECTORY, page, 12, params[:query])
+    redirect to('/list/')
+  end
+
+  get '/list/*?' do
+    path = File.join(*params[:splat])
+    @result = ImageDirectoryList.new(BASE_DIRECTORY, path, page, 12, params[:query])
 
     haml :list
   end
 
-  get '/show/:directory/:page' do
-    @image_dir      = ImageDirectory.new(File.join(BASE_DIRECTORY, params[:directory]))
+  get '/show/*/:page' do
+    @image_dir      = ImageDirectory.new(BASE_DIRECTORY, File.join(params[:splat]))
     @next_page      = next_page(@image_dir.images.size)
     @image_filename = @image_dir.images[page - 1]
 
