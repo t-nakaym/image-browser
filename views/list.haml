@@ -16,8 +16,8 @@
           - row do
             - row_entries.each do |img_dir|
               %li.span2
-                %a.thumbnail{href: encoded_url("/show", img_dir.basename, "1")}
-                  %img{src: img_dir.thumbnail ? encoded_url("/images", img_dir.basename, img_dir.thumbnail) : '',
+                %a.thumbnail{href: dir_link(img_dir)}
+                  %img{src: img_dir.thumbnail ? encoded_url("/images", img_dir.path, img_dir.thumbnail) : '',
                        alt: img_dir.basename}
                   = img_dir.basename
       != paginate @result, view: :_paginate, items_per_page: 12

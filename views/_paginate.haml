@@ -1,13 +1,8 @@
 .pagination.pagination-centered
   %ul
-    %li{class: page == 1 ? 'disabled' : nil}
-      %a{href: pagination_url(uri, params.merge('page' => 1))}= labels[:first]
-    %li{class: page == 1 ? 'disabled' : nil}
-      %a{href: pagination_url(uri, params.merge('page' => page - 1))}= '&lt;'
+    = page_link(1, page, last, uri, labels[:first])
+    = page_link(page - 1, page, last, uri, '&lt;')
     - (from..to).each do |n|
-      %li{class: n == page ? 'active' : nil}
-        %a{href: pagination_url(uri, params.merge('page' => n))}= n
-    %li{class: page == last ? 'disabled' : nil}
-      %a{href: pagination_url(uri, params.merge('page' => page + 1))}= '&gt;'
-    %li{class: page == last ? 'disabled' : nil}
-      %a{href: pagination_url(uri, params.merge('page' => last))}= labels[:last]
+      = page_link(n, page, last, uri, n.to_s)
+    = page_link(page + 1, page, last, uri, '&gt;')
+    = page_link(last, page, last, uri, labels[:last])
